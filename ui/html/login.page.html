@@ -1,0 +1,29 @@
+{{template "base" .}}
+
+{{define "title"}}Login{{end}}
+
+{{define "main"}}
+<h2>Login</h2>
+<form action="/login" method="POST">
+	<div class="username">
+		<label for="usr">Username:</label>
+		<input type="text" name="username" id="usr" autocomplete="off" required>
+	</div>
+
+	<div class="password">
+		<label for="pwd">Password:</label>
+		<input type="password" name="password" id="pwd" autocomplete="off" required>
+	</div>
+
+	<hr>
+
+	<input type="submit" class="btn" value="Login">
+
+	<div class="container signup">
+		<p>Do not have an account? <a href="/signup">Sign Up</a>.</p>
+	</div>
+</form>
+{{if .ServiceMsg}}
+<p>{{.ServiceMsg}}</p>
+{{end}}
+{{end}}

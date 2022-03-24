@@ -1,0 +1,38 @@
+{{template "base" .}}
+
+
+{{define "title"}}
+Liked posts by #{{range $key, $value := .FilteredPosts}} {{$key}} {{end}}
+{{end}}
+
+{{define "main"}}
+{{range $key, $value := .FilteredPosts}}
+<h2>Your liked posts</h2>
+
+{{if $value}}
+<table>
+	<tr>
+		<th>ID</th>
+		<th>Title</th>
+		<th>Author</th>
+		<th>Created at</th>
+		<th>Category</th>
+	</tr>
+
+	{{range $value }}
+	<tr>
+		<td>#{{.ID}}</td>
+		<td><a href="/post?id={{.ID}}">{{.Title}}</a></td>
+		<td>{{.Author}}</td>
+		<td>{{.CreationDate}}</td>
+		<td>{{range .Categories}} <a href="/category?name={{.}}">{{.}}</a> {{end}}</td>
+	</tr>
+	{{end}}
+</table>
+{{else}}
+<p>You are not liked any post yet...</p>
+{{end}}
+
+{{end}}
+
+{{end}}

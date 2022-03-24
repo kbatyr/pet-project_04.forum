@@ -1,0 +1,41 @@
+{{template "base" .}}
+
+{{define "title"}}Create post{{end}}
+
+{{define "main"}}
+<form action="/create" method="POST">
+	<div class="title">
+		<label for="ttl">Title:</label>
+		<input type="text" name="title" id="ttl">
+	</div>
+
+	<div class="content">
+		<label for="cnt">Content:</label>
+		<textarea style="resize: none;" name="content" id="cnt" cols="30" rows="10"></textarea>
+	</div>
+
+	{{if .ServiceMsg}}
+	<div>{{.ServiceMsg}}</div>
+	{{end}}
+
+	<div class="content multiselect">
+		<div class="selectBox" onclick="showCheckboxes()">
+			<label for="category">Category:</label>
+			<select id="category">
+				<option>Select an option</option>
+			</select>
+			<div class="overSelect"></div>
+		</div>
+		<div id="checkboxes">
+			{{range .AllCategories}}
+			<label for="{{.ID}}">
+				<input type="checkbox" name="category" id="{{.ID}}" value="{{.ID}}" />{{.Name}}</label>
+			{{end}}
+		</div>
+	</div>
+
+	<input type="submit">
+</form>
+
+<script src="/static/js/main.js"></script>
+{{end}}

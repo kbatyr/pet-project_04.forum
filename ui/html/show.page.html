@@ -1,0 +1,80 @@
+{{template "base" .}}
+
+{{define "title"}} Post #{{.Post.ID}} {{end}}
+
+{{define "main"}}
+<!-- Содержимое из структуры .Post передаётся в точку . и уже-->
+<!-- в теле оператора 'with' до его закрывающего тега 'end' доступ-->
+<!-- к полям из структуры .Post выполняется сразу через точку .Title,-->
+<!-- чтобы не писать каждый раз .Post.Title.-->
+
+{{$Authorized:= .Authorized}}
+{{$post_id:= .Post.ID}}
+
+{{with .Post}}
+<div class="snippet">
+	<div class="metadata">
+		<strong>Title: {{.Title}}</strong><br>
+
+		{{if .Categories}}
+		<strong>Category:{{range .Categories}} <a href="/category?name={{.}}">{{.}}</a> {{end}}</strong>
+		{{end}}
+
+		<span>#{{.ID}}</span>
+	</div>
+	<pre><code>{{.Content}}</code></pre>
+	<div class="metadata">
+		<time>Created: {{.CreationDate}}</time>
+
+		<form action="/rating?id={{.ID}}" method="POST">
+			<button class="btn" name="reaction" value="like" id="green"><i class="fa fa-thumbs-up fa-lg"
+					aria-hidden="true"></i></button>
+			<span id="rating">{{.Rating.Likes}}</span>
+			<button class="btn" name="reaction" value="dislike" id="red"><i class="fa fa-thumbs-down fa-lg"
+					aria-hidden="true"></i></button>
+			<span id="rating">{{.Rating.Dislikes}}</span>
+		</form>
+
+		<time> <strong>Author: </strong>{{.Author}}</time>
+	</div>
+</div>
+
+{{range .Comments}}
+<div class="snippet">
+	<div class="metadata">
+		<strong>Comment author: {{.Author}}</strong>
+		<span>{{.Date}}</span>
+	</div>
+	<pre><code>{{.Message}}</code></pre>
+
+	<form action="/rating/comment?id={{.ID}}&post_id={{$post_id}}" method="POST">
+		<button class="btn" name="reaction" value="like" id="green"><i class="fa fa-thumbs-up fa-lg"
+				aria-hidden="true"></i></button>
+		<span id="rating">{{.Rating.Likes}}</span>
+		<button class="btn" name="reaction" value="dislike" id="red"><i class="fa fa-thumbs-down fa-lg"
+				aria-hidden="true"></i></button>
+		<span id="rating">{{.Rating.Dislikes}}</span>
+	</form>
+</div>
+{{end}}
+
+{{end}}
+
+{{if .Authorized}}
+<form action="/comment?id={{.Post.ID}}" method="POST">
+	<div class="comment">
+		<textarea style="resize: none;" name="comment" id="" cols="30" rows="10"
+			placeholder="Leave your comment here"></textarea>
+		<input type="submit" value="Submit">
+	</div>
+</form>
+
+{{if .ServiceMsg}}
+<p>{{.ServiceMsg}}</p>
+{{end}}
+
+
+{{end}}
+<script src="/static/js/main.js"></script>
+<script src="https://use.fontawesome.com/fe459689b4.js"></script>
+{{end}}
