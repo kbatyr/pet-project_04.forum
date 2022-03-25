@@ -7,7 +7,9 @@ This project consists in creating a web forum that allows :
 - liking and disliking posts and comments.
 - filtering posts.
 
-## Usage: To run project: `make run`
+## Usage
+
+To run project: `make run`
 
 **Additional commands:**
 
